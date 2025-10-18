@@ -88,3 +88,58 @@ public:
 
 };
 
+class Stack {
+private:
+	Process* top;
+public:
+	
+	Stack()
+	{
+		top = nullptr;
+	}
+
+	bool isEmpty()
+	{
+		return top == nullptr;
+	}
+
+	void push(Process* p)
+	{
+		p->next = top;
+		top = p;
+	}
+
+	Process* pop()
+	{
+		Process* temp = top;
+		top = top->next;
+		temp->next = nullptr;
+		return temp;
+	}
+
+	void Last3TasksDisplay(string label)
+	{
+		cout << "Label is: " << label << endl;
+		if (isEmpty())
+		{
+			cout << "Empty Stack" << endl;
+		}
+		else
+		{
+			Process* temp = top;
+			int count = 0;
+			while (temp != NULL && count < 3)
+			{
+				cout << "[" << temp->name << "]";
+				temp = temp->next;
+				count++;
+			}
+		}
+
+		cout << endl;
+	}
+
+
+	
+};
+
