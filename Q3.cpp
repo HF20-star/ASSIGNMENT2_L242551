@@ -198,7 +198,18 @@ void undoLastTask(Stack& s1, Queue& q1)
 	}
 }
 
+void killCurrentTask(Process*& curr, Stack& killedStack)
+{
+	if (curr == nullptr)
+	{
+		cout << "Found No running task to kill " << endl;
+		return;
+	}
 
+	cout << "Task: " << curr->name << " killed and pushed to Killed Stack" << endl;
+	killedStack.push(curr);
+	curr = nullptr;
+}
 
 
 
