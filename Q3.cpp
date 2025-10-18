@@ -17,3 +17,74 @@ public:
 	}
 };
 
+class Queue {
+private:
+	Process* front;
+	Process* rear;
+public:
+	Queue()
+	{
+		front = nullptr;
+		rear = nullptr;
+	}
+
+	bool isEmpty()
+	{
+		return front == nullptr;
+	}
+
+
+	void enqueue(Process* p)
+	{
+		if (rear == nullptr)
+		{
+			front = p;
+			rear = p;
+		}
+		else
+		{
+			rear->next = p;
+			rear = p;
+
+		}
+
+		p->next = nullptr;
+	}
+
+	Process* dequeue()
+	{
+		if (front == nullptr)
+		{
+			return nullptr;
+		}
+		Process* temp = front;
+		front = front->next;
+		if (front == nullptr)
+		{
+			rear = nullptr;
+		}
+		temp->next = nullptr;
+		return temp;
+	}
+
+	void display()
+	{
+		cout << "Ready Queue " << endl;
+		if (isEmpty())
+		{
+			cout << "Empty Queue" << endl;
+		}
+		else
+		{
+			Process* temp = front;
+			while (temp != nullptr)
+			{
+				cout << "[ " << temp->name << " (P" << temp->priority << " ,D" << temp->duration << ")]";
+				temp = temp->next;
+			}
+		}
+		cout << endl;
+	}
+
+};
+
