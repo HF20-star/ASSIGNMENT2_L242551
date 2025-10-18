@@ -225,4 +225,87 @@ void restoreCurrTask(Stack& killedStack, Queue& q1)
 	}
 }
 
+int main()
+{
+	Queue readyQueue;
+	Stack completedStack;
+	Stack killedStack;
+	Process* curr = nullptr;
+	const int timeSlice = 3;
+	int choice;
+
+
+	cout << "----- Process Manager Simulation -----" << endl;
+	cout << endl;
+	
+	cout << "Following is the Options Menu. Select any one of them by typing the Option NUMBER " << endl;
+	while (true)
+	{
+		cout << "1. Add New Task" << endl;
+		cout << "2. Execute Next by Round-Robin Method" << endl;
+		cout << "3. Undo Last Completed" << endl;
+		cout << "4. Kill Current Task" << endl;
+		cout << "5. Restore Killed Task" << endl;
+		cout << "6. Display Status" << endl;
+		cout << "7. Exit" << endl;
+		cout << endl;
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		if (choice == 1) 
+		{
+			string n;
+			int p, d;
+			cout << "Enter process name: ";
+			cin >> n;
+			cout << "Enter priority: ";
+			cin >> p;
+			cout << "Enter duration: ";
+			cin >> d;
+			readyQueue.enqueue(new Process(n, p, d));
+		}
+
+		else if (choice == 2) 
+		{
+		   curr = ExecuteRoundRobin(readyQueue, completedStack, timeSlice);
+		}
+
+		else if (choice == 3) 
+		{
+			undoLastTask(completedStack, readyQueue);
+		}
+
+		else if (choice == 4)
+		{
+			killCurrentTask(curr, killedStack);
+		}
+
+		else if (choice == 5) 
+		{
+			restoreCurrTask(killedStack, readyQueue);
+		}
+
+		else if (choice == 6) 
+		{
+			readyQueue.display();
+			completedStack.Last3TasksDisplay("Last 3 Completed");
+	        killedStack.Last3TasksDisplay("Killed Tasks");
+		}
+
+		else if (choice == 7) 
+		{
+			cout << "Exiting simulation"<<endl;
+			break;
+		}
+
+		else
+		{
+			cout << "Invalid choice!" << endl;
+		}
+	}
+
+	return 0;
+}
+
+    
 
