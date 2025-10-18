@@ -143,15 +143,15 @@ public:
 	
 };
 
-Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
+Process* ExecuteRoundRobin(Queue& readyQueue, Stack& completedStack, int timeSlice)
 {
-	if (q1.isEmpty())
+	if (readyQueue.isEmpty())
 	{
 		cout << "Found No Processes in Queue to Execute " << endl;
 		return nullptr;
 	}
 
-	Process* curr = q1.dequeue();
+	Process* curr = readyQueue.dequeue();
 	cout << "Currently Executing: " << curr->name << endl;
 
 	int runTime = 0;
@@ -171,12 +171,12 @@ Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
 	if (curr->duration > 0)
 	{
 		cout << "Time slice complete. Remaining duration of Task is: " << curr->duration << endl;
-		q1.enqueue(curr);
+		readyQueue.enqueue(curr);
 	}
 	else
 	{
 		cout << "Process: " << curr->name << " completed." << endl;
-		s1.push(curr);
+		completedStack.push(curr);
 
 	}
 
@@ -184,13 +184,13 @@ Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
 
 }
 
-void undoLastTask(Stack& s1, Queue& q1)
+void undoLastTask(Stack& completedStack, Queue& readyQueue)
 {
-	Process* p = s1.pop();
+	Process* p = completedStack.pop();
 	if (p)
 	{
 		cout << "Undo: Restoring " << p->name << " to ready Queue. " << endl;
-		q1.enqueue(p);
+		readyQueue.enqueue(p);
 	}
 	else
 	{
@@ -211,5 +211,18 @@ void killCurrentTask(Process*& curr, Stack& killedStack)
 	curr = nullptr;
 }
 
+void restoreCurrTask(Stack& killedStack, Queue& readyQueue)
+{
+	Process* p = killedStack.pop();
+	if (p)
+	{
+		cout << "Restoring Killed Task: " << p->name << " to ready Queue" << endl;
+		readyQueue.enqueue(p);
+	}
+	else
+	{
+		cout << "No killed task found to Restore " << endl;
+	}
+}
 
 
