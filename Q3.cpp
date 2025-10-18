@@ -184,5 +184,21 @@ Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
 
 }
 
+void undoLastTask(Stack& s1, Queue& q1)
+{
+	Process* p = s1.pop();
+	if (p)
+	{
+		cout << "Undo: Restoring " << p->name << " to ready Queue. " << endl;
+		q1.enqueue(p);
+	}
+	else
+	{
+		cout << "No completed Task to undo " << endl;
+	}
+}
+
+
+
 
 
