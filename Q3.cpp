@@ -166,5 +166,23 @@ Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
 
 	curr->duration = curr->duration - runTime;
 
+	cout << "Simulated Run Time " << runTime << endl;
+
+	if (curr->duration > 0)
+	{
+		cout << "Time slice complete. Remaining duration of Task is: " << curr->duration << endl;
+		q1.enqueue(curr);
+	}
+	else
+	{
+		cout << "Process: " << curr->name << " completed." << endl;
+		s1.push(curr);
+
+	}
+
+	return curr;
+
 }
+
+
 
