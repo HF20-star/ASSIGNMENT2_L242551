@@ -143,3 +143,28 @@ public:
 	
 };
 
+Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
+{
+	if (q1.isEmpty())
+	{
+		cout << "Found No Processes in Queue to Execute " << endl;
+		return nullptr;
+	}
+
+	Process* curr = q1.dequeue();
+	cout << "Currently Executing: " << curr->name << endl;
+
+	int runTime = 0;
+	if (curr->duration > timeSlice)
+	{
+		runTime = timeSlice;
+	}
+	else
+	{
+		runTime = curr->duration;
+	}
+
+	curr->duration = curr->duration - runTime;
+
+}
+
