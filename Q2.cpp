@@ -89,3 +89,22 @@ public:
             });
         return sum;
     }
+
+    double avgSelected() {
+        double sum = 0; int count = 0;
+        traverse([&](Cell* c) {
+            if (c->selected) {
+                bool isNum = true;
+                const std::string& s = c->data;
+                for (int i = 0; i < s.length(); i++) {
+                    if ((s[i] < '0' || s[i]>'9') && s[i] != '.') isNum = false;
+                }
+                if (isNum && s != "") { sum += std::stod(s); count++; }
+            }
+            });
+        return count ? sum / count : 0;
+    }
+
+    int getRows() { return rows; }
+    int getCols() { return cols; }
+};
