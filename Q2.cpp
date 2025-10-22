@@ -118,7 +118,7 @@ int main() {
     std::string inputText = "";
     sf::Text inputDisplay;
     sf::Font font;
-    font.loadFromFile("C:/Windows/Fonts/arial.ttf"); // optional, can use system font
+    font.loadFromFile("C:/Windows/Fonts/arial.ttf"); 
     inputDisplay.setFont(font);
     inputDisplay.setCharacterSize(20);
     inputDisplay.setFillColor(sf::Color::Black);
