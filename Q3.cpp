@@ -1,311 +1,311 @@
-//#include<iostream>
-//using namespace std;
-//
-//class Process {
-//public:
-//	string name;
-//	int priority;
-//	int duration;
-//	Process* next;
-//
-//	Process(string n, int p, int d)
-//	{
-//		name = n;
-//		priority = p;
-//		duration = d;
-//		next = nullptr;
-//	}
-//};
-//
-//class Queue {
-//private:
-//	Process* front;
-//	Process* rear;
-//public:
-//	Queue()
-//	{
-//		front = nullptr;
-//		rear = nullptr;
-//	}
-//
-//	bool isEmpty()
-//	{
-//		return front == nullptr;
-//	}
-//
-//
-//	void enqueue(Process* p)
-//	{
-//		if (rear == nullptr)
-//		{
-//			front = p;
-//			rear = p;
-//		}
-//		else
-//		{
-//			rear->next = p;
-//			rear = p;
-//
-//		}
-//
-//		p->next = nullptr;
-//	}
-//
-//	Process* dequeue()
-//	{
-//		if (front == nullptr)
-//		{
-//			return nullptr;
-//		}
-//		Process* temp = front;
-//		front = front->next;
-//		if (front == nullptr)
-//		{
-//			rear = nullptr;
-//		}
-//		temp->next = nullptr;
-//		return temp;
-//	}
-//
-//	void display()
-//	{
-//		cout << "Ready Queue " << endl;
-//		if (isEmpty())
-//		{
-//			cout << "Empty Queue" << endl;
-//		}
-//		else
-//		{
-//			Process* temp = front;
-//			while (temp != nullptr)
-//			{
-//				cout << "[ " << temp->name << " (P" << temp->priority << " ,D" << temp->duration << ")]";
-//				temp = temp->next;
-//			}
-//		}
-//		cout << endl;
-//	}
-//
-//};
-//
-//class Stack {
-//private:
-//	Process* top;
-//public:
-//	
-//	Stack()
-//	{
-//		top = nullptr;
-//	}
-//
-//	bool isEmpty()
-//	{
-//		return top == nullptr;
-//	}
-//
-//	void push(Process* p)
-//	{
-//		p->next = top;
-//		top = p;
-//	}
-//
-//	Process* pop()
-//	{
-//		Process* temp = top;
-//		top = top->next;
-//		temp->next = nullptr;
-//		return temp;
-//	}
-//
-//	void Last3TasksDisplay(string label)
-//	{
-//		cout << "Label is: " << label << endl;
-//		if (isEmpty())
-//		{
-//			cout << "Empty Stack" << endl;
-//		}
-//		else
-//		{
-//			Process* temp = top;
-//			int count = 0;
-//			while (temp != NULL && count < 3)
-//			{
-//				cout << "[" << temp->name << "]";
-//				temp = temp->next;
-//				count++;
-//			}
-//		}
-//
-//		cout << endl;
-//	}
-//
-//
-//	
-//};
-//
-//Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
-//{
-//	if (q1.isEmpty())
-//	{
-//		cout << "Found No Processes in Queue to Execute " << endl;
-//		return nullptr;
-//	}
-//
-//	Process* curr = q1.dequeue();
-//	cout << "Currently Executing: " << curr->name << endl;
-//
-//	int runTime = 0;
-//	if (curr->duration > timeSlice)
-//	{
-//		runTime = timeSlice;
-//	}
-//	else
-//	{
-//		runTime = curr->duration;
-//	}
-//
-//	curr->duration = curr->duration - runTime;
-//
-//	cout << "Simulated Run Time " << runTime << endl;
-//
-//	if (curr->duration > 0)
-//	{
-//		cout << "Time slice complete. Remaining duration of Task is: " << curr->duration << endl;
-//		q1.enqueue(curr);
-//	}
-//	else
-//	{
-//		cout << "Process: " << curr->name << " completed." << endl;
-//		s1.push(curr);
-//
-//	}
-//
-//	return curr;
-//
-//}
-//
-//void undoLastTask(Stack& s1, Queue& q1)
-//{
-//	Process* p = s1.pop();
-//	if (p)
-//	{
-//		cout << "Undo: Restoring " << p->name << " to ready Queue. " << endl;
-//		q1.enqueue(p);
-//	}
-//	else
-//	{
-//		cout << "No completed Task to undo " << endl;
-//	}
-//}
-//
-//void killCurrentTask(Process*& curr, Stack& killedStack)
-//{
-//	if (curr == nullptr)
-//	{
-//		cout << "Found No running task to kill " << endl;
-//		return;
-//	}
-//
-//	cout << "Task: " << curr->name << " killed and pushed to Killed Stack" << endl;
-//	killedStack.push(curr);
-//	curr = nullptr;
-//}
-//
-//void restoreCurrTask(Stack& killedStack, Queue& q1)
-//{
-//	Process* p = killedStack.pop();
-//	if (p)
-//	{
-//		cout << "Restoring Killed Task: " << p->name << " to ready Queue" << endl;
-//		q1.enqueue(p);
-//	}
-//	else
-//	{
-//		cout << "No killed task found to Restore " << endl;
-//	}
-//}
-//
-//int main()
-//{
-//	Queue readyQueue;
-//	Stack completedStack;
-//	Stack killedStack;
-//	Process* curr = nullptr;
-//	const int timeSlice = 3;
-//	int choice;
-//
-//
-//	cout << "----- Process Manager Simulation -----" << endl;
-//	cout << endl;
-//	
-//	cout << "Following is the Options Menu. Select any one of them by typing the Option NUMBER " << endl;
-//	while (true)
-//	{
-//		cout << "1. Add New Task" << endl;
-//		cout << "2. Execute Next by Round-Robin Method" << endl;
-//		cout << "3. Undo Last Completed" << endl;
-//		cout << "4. Kill Current Task" << endl;
-//		cout << "5. Restore Killed Task" << endl;
-//		cout << "6. Display Status" << endl;
-//		cout << "7. Exit" << endl;
-//		cout << endl;
-//		cout << "Enter choice: ";
-//		cin >> choice;
-//
-//		if (choice == 1) 
-//		{
-//			string n;
-//			int p, d;
-//			cout << "Enter process name: ";
-//			cin >> n;
-//			cout << "Enter priority: ";
-//			cin >> p;
-//			cout << "Enter duration: ";
-//			cin >> d;
-//			readyQueue.enqueue(new Process(n, p, d));
-//		}
-//
-//		else if (choice == 2) 
-//		{
-//		   curr = ExecuteRoundRobin(readyQueue, completedStack, timeSlice);
-//		}
-//
-//		else if (choice == 3) 
-//		{
-//			undoLastTask(completedStack, readyQueue);
-//		}
-//
-//		else if (choice == 4)
-//		{
-//			killCurrentTask(curr, killedStack);
-//		}
-//
-//		else if (choice == 5) 
-//		{
-//			restoreCurrTask(killedStack, readyQueue);
-//		}
-//
-//		else if (choice == 6) 
-//		{
-//			readyQueue.display();
-//			completedStack.Last3TasksDisplay("Last 3 Completed");
-//	        killedStack.Last3TasksDisplay("Killed Tasks");
-//		}
-//
-//		else if (choice == 7) 
-//		{
-//			cout << "Exiting simulation"<<endl;
-//			break;
-//		}
-//
-//		else
-//		{
-//			cout << "Invalid choice!" << endl;
-//		}
-//	}
-//
-//	return 0;
-//}
-//
-//    
-//
+#include<iostream>
+using namespace std;
+
+class Process {
+public:
+	string name;
+	int priority;
+	int duration;
+	Process* next;
+
+	Process(string n, int p, int d)
+	{
+		name = n;
+		priority = p;
+		duration = d;
+		next = nullptr;
+	}
+};
+
+class Queue {
+private:
+	Process* front;
+	Process* rear;
+public:
+	Queue()
+	{
+		front = nullptr;
+		rear = nullptr;
+	}
+
+	bool isEmpty()
+	{
+		return front == nullptr;
+	}
+
+
+	void enqueue(Process* p)
+	{
+		if (rear == nullptr)
+		{
+			front = p;
+			rear = p;
+		}
+		else
+		{
+			rear->next = p;
+			rear = p;
+
+		}
+
+		p->next = nullptr;
+	}
+
+	Process* dequeue()
+	{
+		if (front == nullptr)
+		{
+			return nullptr;
+		}
+		Process* temp = front;
+		front = front->next;
+		if (front == nullptr)
+		{
+			rear = nullptr;
+		}
+		temp->next = nullptr;
+		return temp;
+	}
+
+	void display()
+	{
+		cout << "Ready Queue " << endl;
+		if (isEmpty())
+		{
+			cout << "Empty Queue" << endl;
+		}
+		else
+		{
+			Process* temp = front;
+			while (temp != nullptr)
+			{
+				cout << "[ " << temp->name << " (P" << temp->priority << " ,D" << temp->duration << ")]";
+				temp = temp->next;
+			}
+		}
+		cout << endl;
+	}
+
+};
+
+class Stack {
+private:
+	Process* top;
+public:
+	
+	Stack()
+	{
+		top = nullptr;
+	}
+
+	bool isEmpty()
+	{
+		return top == nullptr;
+	}
+
+	void push(Process* p)
+	{
+		p->next = top;
+		top = p;
+	}
+
+	Process* pop()
+	{
+		Process* temp = top;
+		top = top->next;
+		temp->next = nullptr;
+		return temp;
+	}
+
+	void Last3TasksDisplay(string label)
+	{
+		cout << "Label is: " << label << endl;
+		if (isEmpty())
+		{
+			cout << "Empty Stack" << endl;
+		}
+		else
+		{
+			Process* temp = top;
+			int count = 0;
+			while (temp != NULL && count < 3)
+			{
+				cout << "[" << temp->name << "]";
+				temp = temp->next;
+				count++;
+			}
+		}
+
+		cout << endl;
+	}
+
+
+	
+};
+
+Process* ExecuteRoundRobin(Queue& q1, Stack& s1, int timeSlice)
+{
+	if (q1.isEmpty())
+	{
+		cout << "Found No Processes in Queue to Execute " << endl;
+		return nullptr;
+	}
+
+	Process* curr = q1.dequeue();
+	cout << "Currently Executing: " << curr->name << endl;
+
+	int runTime = 0;
+	if (curr->duration > timeSlice)
+	{
+		runTime = timeSlice;
+	}
+	else
+	{
+		runTime = curr->duration;
+	}
+
+	curr->duration = curr->duration - runTime;
+
+	cout << "Simulated Run Time " << runTime << endl;
+
+	if (curr->duration > 0)
+	{
+		cout << "Time slice complete. Remaining duration of Task is: " << curr->duration << endl;
+		q1.enqueue(curr);
+	}
+	else
+	{
+		cout << "Process: " << curr->name << " completed." << endl;
+		s1.push(curr);
+
+	}
+
+	return curr;
+
+}
+
+void undoLastTask(Stack& s1, Queue& q1)
+{
+	Process* p = s1.pop();
+	if (p)
+	{
+		cout << "Undo: Restoring " << p->name << " to ready Queue. " << endl;
+		q1.enqueue(p);
+	}
+	else
+	{
+		cout << "No completed Task to undo " << endl;
+	}
+}
+
+void killCurrentTask(Process*& curr, Stack& killedStack)
+{
+	if (curr == nullptr)
+	{
+		cout << "Found No running task to kill " << endl;
+		return;
+	}
+
+	cout << "Task: " << curr->name << " killed and pushed to Killed Stack" << endl;
+	killedStack.push(curr);
+	curr = nullptr;
+}
+
+void restoreCurrTask(Stack& killedStack, Queue& q1)
+{
+	Process* p = killedStack.pop();
+	if (p)
+	{
+		cout << "Restoring Killed Task: " << p->name << " to ready Queue" << endl;
+		q1.enqueue(p);
+	}
+	else
+	{
+		cout << "No killed task found to Restore " << endl;
+	}
+}
+
+int main()
+{
+	Queue readyQueue;
+	Stack completedStack;
+	Stack killedStack;
+	Process* curr = nullptr;
+	const int timeSlice = 3;
+	int choice;
+
+
+	cout << "----- Process Manager Simulation -----" << endl;
+	cout << endl;
+	
+	cout << "Following is the Options Menu. Select any one of them by typing the Option NUMBER " << endl;
+	while (true)
+	{
+		cout << "1. Add New Task" << endl;
+		cout << "2. Execute Next by Round-Robin Method" << endl;
+		cout << "3. Undo Last Completed" << endl;
+		cout << "4. Kill Current Task" << endl;
+		cout << "5. Restore Killed Task" << endl;
+		cout << "6. Display Status" << endl;
+		cout << "7. Exit" << endl;
+		cout << endl;
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		if (choice == 1) 
+		{
+			string n;
+			int p, d;
+			cout << "Enter process name: ";
+			cin >> n;
+			cout << "Enter priority: ";
+			cin >> p;
+			cout << "Enter duration: ";
+			cin >> d;
+			readyQueue.enqueue(new Process(n, p, d));
+		}
+
+		else if (choice == 2) 
+		{
+		   curr = ExecuteRoundRobin(readyQueue, completedStack, timeSlice);
+		}
+
+		else if (choice == 3) 
+		{
+			undoLastTask(completedStack, readyQueue);
+		}
+
+		else if (choice == 4)
+		{
+			killCurrentTask(curr, killedStack);
+		}
+
+		else if (choice == 5) 
+		{
+			restoreCurrTask(killedStack, readyQueue);
+		}
+
+		else if (choice == 6) 
+		{
+			readyQueue.display();
+			completedStack.Last3TasksDisplay("Last 3 Completed");
+	        killedStack.Last3TasksDisplay("Killed Tasks");
+		}
+
+		else if (choice == 7) 
+		{
+			cout << "Exiting simulation"<<endl;
+			break;
+		}
+
+		else
+		{
+			cout << "Invalid choice!" << endl;
+		}
+	}
+
+	return 0;
+}
+
+    
+
