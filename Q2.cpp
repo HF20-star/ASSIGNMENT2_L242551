@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
-#include <sstream>
 
 class Cell {
 public:
@@ -43,4 +42,50 @@ public:
             prevRow = rowHead;
         }
         return top;
+    }
+
+    Cell* getCell(int r, int c) {
+        Cell* rowPtr = head;
+        for (int i = 0; i < r && rowPtr; i++) rowPtr = rowPtr->down;
+        Cell* colPtr = rowPtr;
+        for (int j = 0; j < c && colPtr; j++) colPtr = colPtr->right;
+        return colPtr;
+    }
+
+    template<typename F>
+    void traverse(F func) {
+        Cell* rptr = head;
+        while (rptr) {
+            Cell* cptr = rptr;
+            while (cptr) {
+                func(cptr);
+                cptr = cptr->right;
+            }
+            rptr = rptr->down;
+        }
+    }
+
+    void insertData(const std::string& val) {
+        traverse([&](Cell* c) { if (c->selected) c->data = val; });
+    }
+
+    int countSelected() {
+        int count = 0;
+        traverse([&](Cell* c) { if (c->selected) count++; });
+        return count;
+    }
+
+    double sumSelected() {
+        double sum = 0;
+        traverse([&](Cell* c) {
+            if (c->selected) {
+                bool isNum = true;
+                const std::string& s = c->data;
+                for (int i = 0; i < s.length(); i++) {
+                    if ((s[i] < '0' || s[i]>'9') && s[i] != '.') isNum = false;
+                }
+                if (isNum && s != "") sum += std::stod(s);
+            }
+            });
+        return sum;
     }
